@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+  app:
+    image: allocation-agent
+    container_name: allocation-agent
+    build: .
+    env_file:
+      - ./.env
+    ports:
+      - "9000:3000"
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge
