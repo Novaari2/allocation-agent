@@ -28,7 +28,7 @@ app.post('/allocated-agent', async (req, res) => {
             }
 
             
-            const [roomNotAssigned] = await query(`SELECT * FROM room WHERE queue = false ORDER BY id ASC`);
+            const [roomNotAssigned] = await query(`SELECT * FROM room WHERE queue = false ORDER BY createdAt ASC`);
             for (const room of roomNotAssigned) {
                 await query(`UPDATE room SET queue = true WHERE room_id = '${room.room_id}'`);
             }
@@ -42,7 +42,7 @@ app.post('/allocated-agent', async (req, res) => {
 
 async function allocateTasks() {
     try {
-        const [listRoom] = await query(`SELECT * FROM room WHERE is_assign = 'false' ORDER BY id ASC`);
+        const [listRoom] = await query(`SELECT * FROM room WHERE is_assign = 'false' ORDER BY createdAt ASC`);
 
         for (const data of listRoom) {
             const agent = await getAvailableAgent(data.room_id);
